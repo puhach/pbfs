@@ -1,4 +1,5 @@
 #include <iostream>
+#include <iomanip>
 #include <vector>
 #include <stdexcept>
 #include <random>
@@ -7,8 +8,10 @@ using namespace std;
 
 class Graph
 {
+	friend ostream& operator << (ostream& stream, const Graph& g);
 public:
 	Graph(int nVertices, double pEdge, bool directed);
+	
 
 private:
 	int nVertices;
@@ -44,9 +47,23 @@ Graph::Graph(int nVertices, double pEdge, bool directed)
 	}	// v
 }
 
+ostream& operator << (ostream& stream, const Graph& g)
+{
+	//for (int v = 0; v < g.nVertices; ++v)
+	for (const auto &neighbors : g.adj)
+	{
+		auto v = &neighbors - &g.adj.front();
+		stream << setw(5) << v << " | ";
+		copy(neighbors.begin(), neighbors.end(), ostream_iterator<int>(stream, " "));
+		stream << endl;
+	}
+
+	return stream;
+}
+
 int main(int argc, char* argv[])
 {
-	Graph g(3, 0.5, false);
-	g = g;
+	Graph g(5, 0.5, false);
+	cout << g;
 	return 0;
 }
