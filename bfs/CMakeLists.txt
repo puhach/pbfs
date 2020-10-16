@@ -1,9 +1,9 @@
 cmake_minimum_required(VERSION 3.10)
 
-project(PBFS)
+project(BFS)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
-add_executable(pbfs main.cpp)
+add_executable(bfs main.cpp)
 

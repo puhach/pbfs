@@ -3,6 +3,7 @@
 #include <vector>
 #include <stdexcept>
 #include <random>
+#include <chrono>
 
 using namespace std;
 
@@ -24,12 +25,13 @@ Graph::Graph(int nVertices, double pEdge, bool directed)
 	: nVertices(nVertices>0 ? nVertices : throw invalid_argument("The number of vertices must be greater than zero."))
 	, pEdge(pEdge>=0 && pEdge<=1 ? pEdge : throw invalid_argument("The probability of an edge must be in range 0..1."))
 	, directed(directed)
+	, adj(nVertices)
 {
 	random_device rd;
 	mt19937 gen;
 	uniform_real_distribution<double> dist(0, 1);
 
-	adj.resize(nVertices);
+	//adj.resize(nVertices);
 
 	for (int v = 0; v < nVertices; ++v)
 	{
@@ -63,7 +65,10 @@ ostream& operator << (ostream& stream, const Graph& g)
 
 int main(int argc, char* argv[])
 {
-	Graph g(5, 0.5, false);
-	cout << g;
+	auto start = chrono::system_clock::now();
+	Graph g(5000, 0.5, true);
+	chrono::duration<double> dur = chrono::system_clock::now() - start;
+	//cout << g;
+	cout << dur.count() << endl;
 	return 0;
 }
