@@ -4,6 +4,7 @@
 #include <stdexcept>
 #include <random>
 #include <chrono>
+#include <queue>
 
 using namespace std;
 
@@ -13,6 +14,7 @@ class Graph
 public:
 	Graph(int nVertices, double pEdge, bool directed);
 	
+	vector<int> bfs(int vertex);
 
 private:
 	int nVertices;
@@ -49,6 +51,32 @@ Graph::Graph(int nVertices, double pEdge, bool directed)
 	}	// v
 }
 
+vector<int> Graph::bfs(int vertex)
+{
+	vector<int> dist(nVertices, -1);
+	dist[vertex] = 0;
+
+	queue<int> frontier;
+	frontier.push(vertex);
+
+	while (!frontier.empty())
+	{
+		int v = frontier.front();
+		frontier.pop();
+
+		for (int u : adj[v])
+		{
+			if (dist[u] < 0)
+			{
+				dist[u] = dist[v] + 1;
+				frontier.push(u);
+			}
+		}
+	}
+
+	return dist;	// NRVO should eliminate copying
+}	// bfs
+
 ostream& operator << (ostream& stream, const Graph& g)
 {
 	//for (int v = 0; v < g.nVertices; ++v)
@@ -63,12 +91,17 @@ ostream& operator << (ostream& stream, const Graph& g)
 	return stream;
 }
 
+
+
 int main(int argc, char* argv[])
-{
+{	
+	Graph g(5, 0.5, true);
+	cout << g;
 	auto start = chrono::system_clock::now();
-	Graph g(5000, 0.5, true);
+	vector<int> dist = g.bfs(3);
 	chrono::duration<double> dur = chrono::system_clock::now() - start;
-	//cout << g;
 	cout << dur.count() << endl;
+	//cout << dist << endl;
+	copy(dist.begin(), dist.end(), ostream_iterator<int>(cout, " "));
 	return 0;
 }
