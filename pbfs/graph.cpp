@@ -15,3 +15,21 @@ std::ostream& operator << (std::ostream& stream, const Graph& g)
 
 	return stream;
 }
+
+std::vector<int> Graph::pbfs(int vertex) const
+{
+	std::vector<int> dist(this->adj.size(), -1);
+	dist[vertex] = 0;
+
+	int d = 0;
+
+	Bag curBag;
+	curBag.insert(vertex);
+
+	while (!curBag.isEmpty())
+	{
+		Bag nextBag = processLevel(curBag, d++, dist);
+	}
+
+	return dist;
+}

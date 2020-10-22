@@ -24,6 +24,10 @@ public:
 	Graph(const std::vector<std::vector<int>> &adj): adj(adj) {}
 	Graph(std::vector<std::vector<int>>&& adj) : adj(std::move(adj)) {}
 
+	// TODO: define copy/move constructors and copy/move assignment operators
+
+	std::vector<int> pbfs(int vertex) const;
+
 private:
 	/*int nVertices;
 	double pEdge;
