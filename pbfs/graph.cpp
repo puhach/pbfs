@@ -33,3 +33,17 @@ std::vector<int> Graph::pbfs(int vertex) const
 
 	return dist;
 }
+
+Bag Graph::processLevel(Bag& inBag, int level, std::vector<int>& dist) const
+{
+	Bag outBag;
+
+	// TODO: the paper suggests a parallel for
+	for (int i = 0; i < inBag.getSize(); ++i)	// the size here means the number of pennants in the bag
+	{
+		if (Pennant* pennant = inBag.getPennant(i))
+			processPennant(pennant, outBag, level);
+	}
+
+	return outBag;
+}

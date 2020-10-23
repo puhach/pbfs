@@ -29,6 +29,9 @@ public:
 	std::vector<int> pbfs(int vertex) const;
 
 private:
+
+	Bag processLevel(Bag& inBag, int level, std::vector<int>& dist) const;
+
 	/*int nVertices;
 	double pEdge;
 	bool directed;*/
