@@ -1,6 +1,8 @@
 #ifndef GRAPH_H
 #define GRAPH_H
 
+#include "bag.h"
+
 #include <iostream>
 #include <iostream>
 #include <iomanip>
@@ -22,7 +24,9 @@ public:
 	//Graph(Initializer initializer);// : adj(std::move(initializer).getAdjacencyList()) {}
 
 	Graph(const std::vector<std::vector<int>> &adj): adj(adj) {}
-	Graph(std::vector<std::vector<int>>&& adj) : adj(std::move(adj)) {}
+
+	// Since C++17 vector's move constructor is noexcept
+	Graph(std::vector<std::vector<int>>&& adj) noexcept : adj(std::move(adj)) {}
 
 	// TODO: define copy/move constructors and copy/move assignment operators
 
