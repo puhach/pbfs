@@ -16,7 +16,10 @@ public:
 
 	//void insert(std::unique_ptr<Pennant> pennant);
 
+	std::size_t getSize() const { return pennants.size(); }
+
 private:
+	// TODO: consider using a different container
 	std::vector<std::unique_ptr<Pennant>> pennants;
 	//std::vector<Pennant> pennants;
 };	// Bag
