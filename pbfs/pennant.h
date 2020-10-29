@@ -3,7 +3,11 @@
 
 class Pennant
 {
-
-};
+public:
+	Pennant(int vertex)
+		: vertex(vertex) {}
+private:
+	int vertex;
+};	// Pennant
 
 #endif // PENNANT_H
