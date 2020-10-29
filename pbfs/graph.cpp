@@ -1,4 +1,5 @@
 #include "graph.h"
+//#include "pennant.h"
 
 #include <iostream>
 
@@ -9,7 +10,7 @@ std::ostream& operator << (std::ostream& stream, const Graph& g)
 	{
 		auto v = &neighbors - &g.adj.front();
 		stream << std::setw(5) << v << " | ";
-		copy(neighbors.begin(), neighbors.end(), std::ostream_iterator<int>(stream, " "));
+		std::copy(neighbors.begin(), neighbors.end(), std::ostream_iterator<int>(stream, " "));
 		stream << std::endl;
 	}
 
@@ -41,9 +42,49 @@ Bag Graph::processLevel(Bag& inBag, int level, std::vector<int>& dist) const
 	// TODO: the paper suggests a parallel for
 	for (int i = 0; i < inBag.getSize(); ++i)	// the size here means the number of pennants in the bag
 	{
-		if (Pennant* pennant = inBag.getPennant(i))
-			processPennant(pennant, outBag, level);
+		if (Pennant* pennant = inBag.getPennant(i))		// TODO: consider using a shared pointer
+			processPennant(*pennant, outBag, level, dist);
 	}
 
+	// TODO: may need to combine thread-private bags
+
 	return outBag;
+}
+
+void Graph::processPennant(Pennant& pennant, Bag& outBag, int level, std::vector<int> &dist)
+{
+	if (pennant.getSize() > 1)
+	{
+		//Pennant &other = pennant.split();
+		std::unique_ptr<Pennant> other = pennant.split();
+		processPennant(*other, outBag, level, dist);		// spawn
+		processPennant(pennant, outBag, level, dist);	
+		// sync
+	}	// pennant size > 1
+	else
+	{
+		int u = pennant.getVertex();	// head of the pennant
+		for (int i = 0; i < adj[u].size(); ++i)		// parallel
+		{
+			int v = adj[u][i];
+
+			if (dist[v] < 0)
+			{
+				dist[v] = level + 1;	// atomic
+				outBag.insert(v);	// may need to use a private bag for each thread
+			}
+		}
+	}	// pennant size <= 1
+
+	
+
+	/*for (int i = 0; i < pennant.getSize(); ++i)
+	{
+		int u = pennant.getNode(i);
+
+		for (int j = 0; j < adj[u].size(); ++j)
+		{
+
+		}
+	}*/
 }
