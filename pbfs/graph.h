@@ -36,7 +36,7 @@ private:
 
 	Bag processLevel(Bag& inBag, int level, std::vector<int>& dist) const;
 
-	void processPennant(Pennant &pennant, Bag &outBag, int level, std::vector<int> &dist);
+	void processPennant(Pennant &pennant, Bag &outBag, int level, std::vector<int> &dist) const;
 
 	/*int nVertices;
 	double pEdge;
