@@ -16,6 +16,7 @@ public:
 
 	//void insert(std::unique_ptr<Pennant> pennant);
 	
+	bool isEmpty() const { return pennants.empty(); }
 
 	std::size_t getSize() const { return pennants.size(); }
 
