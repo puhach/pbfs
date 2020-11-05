@@ -14,6 +14,8 @@ public:
 
 	std::unique_ptr<Pennant> split();
 
+	void merge(std::unique_ptr<Pennant>& other);
+
 private:
 	int vertex;
 	std::size_t size;
