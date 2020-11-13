@@ -7,8 +7,10 @@
 class Pennant
 {
 public:
-	Pennant(int vertex)
+	constexpr Pennant(int vertex) noexcept
 		: vertex(vertex), size(1) {}
+
+	// TODO: define copy and move constructors
 
 	constexpr std::size_t getSize() const { return size; }
 
