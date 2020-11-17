@@ -3,6 +3,7 @@
 
 #include <cstddef>
 #include <memory>
+#include <cassert>
 
 class Pennant
 {
@@ -12,7 +13,9 @@ public:
 
 	// TODO: define copy and move constructors
 
-	constexpr std::size_t getSize() const { return size; }
+	constexpr int getVertex() const noexcept { assert(size > 0);  return vertex; }
+
+	constexpr std::size_t getSize() const noexcept { return size; }
 
 	std::unique_ptr<Pennant> split();
 
