@@ -9,7 +9,17 @@
 class Bag
 {
 public:
+	// TODO: consider making this constructor constexpr and noexcept (as well as some other methods)
 	Bag();
+
+	// TODO: if needed, we can implement a copy constructor, but that will likely involve cloning pennants
+	Bag(const Bag& other) = delete;	
+
+	Bag(Bag&& other) = default;
+
+	Bag& operator = (const Bag& other) = delete;
+
+	Bag& operator = (Bag&& other) = default;
 
 	// A convenience method for inserting a single vertex into a bag
 	void insert(int vertex);
