@@ -2,6 +2,8 @@
 //#include "pennant.h"
 
 #include <iostream>
+#include <utility>
+
 
 std::ostream& operator << (std::ostream& stream, const Graph& g)
 {
@@ -30,6 +32,7 @@ std::vector<int> Graph::pbfs(int vertex) const
 	while (!curBag.isEmpty())
 	{
 		Bag nextBag = processLevel(curBag, d++, dist);
+		curBag = std::move(nextBag);
 	}
 
 	return dist;
@@ -42,6 +45,10 @@ Bag Graph::processLevel(Bag& inBag, int level, std::vector<int>& dist) const
 	// TODO: the paper suggests a parallel for
 	for (int i = 0; i < inBag.getSize(); ++i)	// the size here means the number of pennants in the bag
 	{
+		//std::weak_ptr<Pennant> pennant = inBag.getPennant(i);
+		//if (auto sp = pennant.lock())
+		//	processPennant(*sp, outBag, level, dist);
+
 		if (Pennant* pennant = inBag.getPennant(i))		// TODO: consider using a shared pointer
 			processPennant(*pennant, outBag, level, dist);
 	}
@@ -51,7 +58,7 @@ Bag Graph::processLevel(Bag& inBag, int level, std::vector<int>& dist) const
 	return outBag;
 }
 
-void Graph::processPennant(Pennant& pennant, Bag& outBag, int level, std::vector<int> &dist)
+void Graph::processPennant(Pennant& pennant, Bag& outBag, int level, std::vector<int> &dist) const
 {
 	if (pennant.getSize() > 1)
 	{
@@ -77,14 +84,4 @@ void Graph::processPennant(Pennant& pennant, Bag& outBag, int level, std::vector
 	}	// pennant size <= 1
 
 	
-
-	/*for (int i = 0; i < pennant.getSize(); ++i)
-	{
-		int u = pennant.getNode(i);
-
-		for (int j = 0; j < adj[u].size(); ++j)
-		{
-
-		}
-	}*/
 }
