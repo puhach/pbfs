@@ -9,29 +9,29 @@
 // Instantiate all templates we need (allows for implementation to be separated from declaration).
 // Alternatively, we could include the definition (.cpp) into the header file.
 
-template class RandomUniformBuilder<ExecutionStrategy::Sequential, std::minstd_rand0>;
-template class RandomUniformBuilder<ExecutionStrategy::Sequential, std::minstd_rand>;
-template class RandomUniformBuilder<ExecutionStrategy::Sequential, std::mt19937>;
-template class RandomUniformBuilder<ExecutionStrategy::Sequential, std::mt19937_64>;
-template class RandomUniformBuilder<ExecutionStrategy::Sequential, std::ranlux24_base>;
-template class RandomUniformBuilder<ExecutionStrategy::Sequential, std::ranlux48_base>;
-template class RandomUniformBuilder<ExecutionStrategy::Sequential, std::ranlux24>;
-template class RandomUniformBuilder<ExecutionStrategy::Sequential, std::ranlux48>;
-template class RandomUniformBuilder<ExecutionStrategy::Sequential, std::knuth_b>;
+template class GraphBuilder<RandomUniform<ExecutionStrategy::Sequential, std::minstd_rand0>>;
+template class GraphBuilder<RandomUniform<ExecutionStrategy::Sequential, std::minstd_rand>>;
+template class GraphBuilder<RandomUniform<ExecutionStrategy::Sequential, std::mt19937>>;
+template class GraphBuilder<RandomUniform<ExecutionStrategy::Sequential, std::mt19937_64>>;
+template class GraphBuilder<RandomUniform<ExecutionStrategy::Sequential, std::ranlux24_base>>;
+template class GraphBuilder<RandomUniform<ExecutionStrategy::Sequential, std::ranlux48_base>>;
+template class GraphBuilder<RandomUniform<ExecutionStrategy::Sequential, std::ranlux24>>;
+template class GraphBuilder<RandomUniform<ExecutionStrategy::Sequential, std::ranlux48>>;
+template class GraphBuilder<RandomUniform<ExecutionStrategy::Sequential, std::knuth_b>>;
 
-template class RandomUniformBuilder<ExecutionStrategy::ParallelOmp, std::minstd_rand0>;
-template class RandomUniformBuilder<ExecutionStrategy::ParallelOmp, std::minstd_rand>;
-template class RandomUniformBuilder<ExecutionStrategy::ParallelOmp, std::mt19937>;
-template class RandomUniformBuilder<ExecutionStrategy::ParallelOmp, std::mt19937_64>;
-template class RandomUniformBuilder<ExecutionStrategy::ParallelOmp, std::ranlux24_base>;
-template class RandomUniformBuilder<ExecutionStrategy::ParallelOmp, std::ranlux48_base>;
-template class RandomUniformBuilder<ExecutionStrategy::ParallelOmp, std::ranlux24>;
-template class RandomUniformBuilder<ExecutionStrategy::ParallelOmp, std::ranlux48>;
-template class RandomUniformBuilder<ExecutionStrategy::ParallelOmp, std::knuth_b>;
+template class GraphBuilder<RandomUniform<ExecutionStrategy::ParallelOmp, std::minstd_rand0>>;
+template class GraphBuilder<RandomUniform<ExecutionStrategy::ParallelOmp, std::minstd_rand>>;
+template class GraphBuilder<RandomUniform<ExecutionStrategy::ParallelOmp, std::mt19937>>;
+template class GraphBuilder<RandomUniform<ExecutionStrategy::ParallelOmp, std::mt19937_64>>;
+template class GraphBuilder<RandomUniform<ExecutionStrategy::ParallelOmp, std::ranlux24_base>>;
+template class GraphBuilder<RandomUniform<ExecutionStrategy::ParallelOmp, std::ranlux48_base>>;
+template class GraphBuilder<RandomUniform<ExecutionStrategy::ParallelOmp, std::ranlux24>>;
+template class GraphBuilder<RandomUniform<ExecutionStrategy::ParallelOmp, std::ranlux48>>;
+template class GraphBuilder<RandomUniform<ExecutionStrategy::ParallelOmp, std::knuth_b>>;
 
 
 template <class RandomEngine>
-Graph RandomUniformBuilder<ExecutionStrategy::Sequential, RandomEngine>::create(int nVertices, double pEdge, bool directed)
+Graph GraphBuilder<RandomUniform<ExecutionStrategy::Sequential, RandomEngine>>::create(int nVertices, double pEdge, bool directed)
 {	
 	std::random_device rd;
 	//mt19937 gen;
@@ -61,7 +61,7 @@ Graph RandomUniformBuilder<ExecutionStrategy::Sequential, RandomEngine>::create(
 
 
 template <class RandomEngine>
-Graph RandomUniformBuilder<ExecutionStrategy::ParallelOmp, RandomEngine>::create(int nVertices, double pEdge, bool directed)
+Graph GraphBuilder<RandomUniform<ExecutionStrategy::ParallelOmp, RandomEngine>>::create(int nVertices, double pEdge, bool directed)
 {
 	std::vector<std::vector<int>> adj(nVertices);
 	
