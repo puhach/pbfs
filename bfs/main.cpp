@@ -30,7 +30,7 @@ Graph::Graph(int nVertices, double pEdge, bool directed)
 	, adj(nVertices)
 {
 	random_device rd;
-	mt19937 gen;
+	mt19937 gen{rd()};
 	uniform_real_distribution<double> dist(0, 1);
 
 	//adj.resize(nVertices);
