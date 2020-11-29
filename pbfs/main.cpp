@@ -34,7 +34,8 @@ int main(int argc, char* argv[])
 	cout << g;*/
 
 	GraphBuilder<RandomUniform<ExecutionStrategy::ParallelOmp, std::mt19937>> builder;
-	Graph g = builder.create(50, 0.5, false);
+	Graph g = builder.create(10, 0.5, false);
+	g.save("./data/c.txt");
 	cout << g;
 
 	/*GraphBuilder<TextFile> builder;

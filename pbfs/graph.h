@@ -36,6 +36,8 @@ public:
 
 	//std::vector<int> pbfs(int vertex) const;
 
+	void save(const std::string &fileName) const;
+
 private:
 
 	Bag processLevel(Bag& inBag, int level, std::vector<int>& dist) const;

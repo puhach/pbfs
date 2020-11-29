@@ -5,6 +5,8 @@
 #include <utility>
 #include <vector>
 #include <queue>
+#include <fstream>
+
 
 std::ostream& operator << (std::ostream& stream, const Graph& g)
 {
@@ -131,6 +133,24 @@ void Graph::processPennant(Pennant& pennant, Bag& outBag, int level, std::vector
 			}
 		}
 	}	// pennant size <= 1
+}
 
-	
+
+void Graph::save(const std::string& fileName) const
+{
+	std::ofstream out(fileName);
+	if (!out)
+		throw std::runtime_error("Failed to open the output file " + fileName);
+
+	out << adj.size() << std::endl;
+
+	for (int i = 0; i < adj.size(); ++i)
+	{
+		out << i << " ";
+		std::copy(adj[i].begin(), adj[i].end(), std::ostream_iterator<int>(out, " "));
+		out << std::endl;
+	}
+
+	if (!out)
+		throw std::runtime_error("Error while writing to the output file " + fileName);
 }
