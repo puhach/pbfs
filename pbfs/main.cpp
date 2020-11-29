@@ -1,6 +1,7 @@
-//#include "randomuniforminitializer.h"
+#include "graphbuilder.h"
 #include "randomuniformbuilder.h"
 #include "executionstrategy.h"
+#include "textfileloader.h"
 
 #include <random>
 #include <chrono>
@@ -27,27 +28,37 @@ using namespace std;
 
 int main(int argc, char* argv[])
 {	
-	//Graph<RandomUniformInitializer> g(5000, 0.5, false);
-	//Graph g(RandomUniformInitializer< std::mt19937>(5000, 0.5, false));
-	//Graph g(RandomUniformInitializer(5000, 0.5, false));
-
-	//GraphBuilder<ExecutionStrategy::Sequential> builder;
-	//Graph g = builder.createUniform<std::mt19937>(5000, 0.5, true);
-
-	//RandomUniformBuilder<std::mt19937> builder;
-	//Graph g = builder.create<ExecutionStrategy::Sequential>(5000, 0.5, true);
-	//RandomUniformBuilder<ExecutionStrategy::Sequential> builder;
-	//Graph g = builder.create<std::mt19937>(500, 0.5, true);
-
-	RandomUniformBuilder<ExecutionStrategy::ParallelOmp, std::mt19937> builder;
+	
+	/*RandomUniformBuilder<ExecutionStrategy::ParallelOmp, std::mt19937> builder;
 	Graph g = builder.create(5, 0.5, false);
+	cout << g;*/
+
+	GraphBuilder<RandomUniform<ExecutionStrategy::ParallelOmp, std::mt19937>> builder;
+	Graph g = builder.create(50, 0.5, false);
 	cout << g;
 
+	/*GraphBuilder<TextFile> builder;
+	Graph g = builder.create("./data/b.txt");
+	cout << g;*/
+
 	auto start = chrono::system_clock::now();
-	std::vector<int> dist = g.pbfs(3);
-	chrono::duration<double> dur = chrono::system_clock::now() - start;
-	cout << dur.count() << endl;
-	copy(dist.begin(), dist.end(), ostream_iterator<int>(cout, " "));
+	//std::vector<int> dist = g.pbfs(3);
+	std::vector<int> distP = g.bfs<ExecutionStrategy::ParallelOmp>(3);
+	chrono::duration<double> durP = chrono::system_clock::now() - start;
+	cout << durP.count() << endl;
+	copy(distP.begin(), distP.end(), ostream_iterator<int>(cout, " "));
+
+	start = chrono::system_clock::now();
+	std::vector<int> distS = g.bfs<ExecutionStrategy::Sequential>(3);
+	chrono::duration<double> durS = chrono::system_clock::now() - start;
+	cout << endl << durS.count() << endl;
+	copy(distS.begin(), distS.end(), ostream_iterator<int>(cout, " "));
+
+	if (distP == distS)
+		cout << "\nOK" << endl;
+	else
+		cout << "\nMismatch!" << endl;
+	
 
 	return 0;
 }
