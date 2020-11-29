@@ -1,7 +1,7 @@
 #include "pennant.h"
 
 #include <stdexcept>
-
+#include <cassert>
 
 std::unique_ptr<Pennant> Pennant::split()
 {
@@ -22,8 +22,11 @@ void Pennant::merge(std::unique_ptr<Pennant>& other)
     if (other->getSize() != this->size)
         throw std::runtime_error("Failed to merge pennants of a different size.");
 
+    assert((this->size << 1) == other->size + this->size);
+
     //this->left.swap(other);
     //this->left->right = std::move(other);
     other->right = std::move(this->left);
     this->left = std::move(other);
+    this->size <<= 1;
 }
