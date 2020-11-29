@@ -3,7 +3,8 @@
 
 #include <iostream>
 #include <utility>
-
+#include <vector>
+#include <queue>
 
 std::ostream& operator << (std::ostream& stream, const Graph& g)
 {
@@ -19,7 +20,36 @@ std::ostream& operator << (std::ostream& stream, const Graph& g)
 	return stream;
 }
 
-std::vector<int> Graph::pbfs(int vertex) const
+template <>
+std::vector<int> Graph::bfs<ExecutionStrategy::Sequential>(int vertex) const
+{
+	std::vector<int> dist(this->adj.size(), -1);
+	dist[vertex] = 0;
+
+	std::queue<int> frontier;
+	frontier.push(vertex);
+
+	while (!frontier.empty())
+	{
+		int v = frontier.front();
+		frontier.pop();
+
+		for (int u : adj[v])
+		{
+			if (dist[u] < 0)
+			{
+				dist[u] = dist[v] + 1;
+				frontier.push(u);
+			}
+		}
+	}
+
+	return dist;	// NRVO should eliminate copying
+}
+
+
+template <>
+std::vector<int> Graph::bfs<ExecutionStrategy::ParallelOmp>(int vertex) const
 {
 	std::vector<int> dist(this->adj.size(), -1);
 	dist[vertex] = 0;
@@ -37,6 +67,25 @@ std::vector<int> Graph::pbfs(int vertex) const
 
 	return dist;
 }
+
+//std::vector<int> Graph::pbfs(int vertex) const
+//{
+//	std::vector<int> dist(this->adj.size(), -1);
+//	dist[vertex] = 0;
+//
+//	int d = 0;
+//
+//	Bag curBag;
+//	curBag.insert(vertex);
+//
+//	while (!curBag.isEmpty())
+//	{
+//		Bag nextBag = processLevel(curBag, d++, dist);
+//		curBag = std::move(nextBag);
+//	}
+//
+//	return dist;
+//}
 
 Bag Graph::processLevel(Bag& inBag, int level, std::vector<int>& dist) const
 {

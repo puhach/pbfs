@@ -2,6 +2,7 @@
 #define GRAPH_H
 
 #include "bag.h"
+#include "executionstrategy.h"
 
 #include <iostream>
 #include <iostream>
@@ -30,7 +31,10 @@ public:
 
 	// TODO: define copy/move constructors and copy/move assignment operators
 
-	std::vector<int> pbfs(int vertex) const;
+	template <ExecutionStrategy executionStrategy>
+	std::vector<int> bfs(int vertex) const;
+
+	//std::vector<int> pbfs(int vertex) const;
 
 private:
 
