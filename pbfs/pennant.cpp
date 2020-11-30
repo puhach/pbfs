@@ -10,6 +10,10 @@ std::unique_ptr<Pennant> Pennant::split()
 
     std::unique_ptr<Pennant> other = std::move(this->left);
     this->left = std::move(other->right);   // other->right will be set to nullptr
+    
+    this->size >>= 1;   // divide the size by two
+    assert(this->size == other->size);
+
     return other;
 }
 
@@ -28,5 +32,5 @@ void Pennant::merge(std::unique_ptr<Pennant>& other)
     //this->left->right = std::move(other);
     other->right = std::move(this->left);
     this->left = std::move(other);
-    this->size <<= 1;
+    this->size <<= 1;   // multiply by two
 }
