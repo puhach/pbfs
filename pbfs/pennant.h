@@ -11,7 +11,14 @@ public:
 	constexpr Pennant(int vertex) noexcept
 		: vertex(vertex), size(1) {}
 
-	// TODO: define copy and move constructors
+	// TODO: if needed, we can implement a copy constructor, but it may be inefficient
+	Pennant(const Pennant& other) = delete;
+
+	Pennant(Pennant&& other) = default;
+
+	Pennant& operator = (const Pennant& other) = delete;
+
+	Pennant& operator = (Pennant&& other) = default;
 
 	constexpr int getVertex() const noexcept { assert(size > 0);  return vertex; }
 
