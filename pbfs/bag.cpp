@@ -23,7 +23,7 @@ Bag::Bag(const Bag& other)
 	this->pennants.reserve(other.pennants.size());
 	for (const std::unique_ptr<Pennant>& pennant : other.pennants)
 	{
-		this->pennants.push_back(std::make_unique<Pennant>(*pennant));
+		this->pennants.push_back(pennant ? std::make_unique<Pennant>(*pennant): nullptr);
 	}
 }
 
@@ -50,3 +50,4 @@ void Bag::insert(int vertex)
 	// If there were no empty slot, append it
 	pennants.push_back(std::move(pennant));
 }
+
