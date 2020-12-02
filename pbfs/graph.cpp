@@ -7,6 +7,13 @@
 #include <queue>
 #include <fstream>
 
+#include <omp.h>
+
+
+// Instantiate non-specialized templates
+template std::vector<int> Graph::bfs<ExecutionStrategy::ParallelOmp>(int vertex) const;
+
+
 
 std::ostream& operator << (std::ostream& stream, const Graph& g)
 {
@@ -49,9 +56,11 @@ std::vector<int> Graph::bfs<ExecutionStrategy::Sequential>(int vertex) const
 	return dist;	// NRVO should eliminate copying
 }
 
-
-template <>
-std::vector<int> Graph::bfs<ExecutionStrategy::ParallelOmp>(int vertex) const
+// Generic Parallel BFS
+template <ExecutionStrategy executionStrategy>
+std::vector<int> Graph::bfs(int vertex) const
+//template <>
+//std::vector<int> Graph::bfs<ExecutionStrategy::ParallelOmp>(int vertex) const
 {
 	std::vector<int> dist(this->adj.size(), -1);
 	dist[vertex] = 0;
