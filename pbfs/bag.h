@@ -12,11 +12,11 @@ public:
 	// TODO: consider making this constructor constexpr and noexcept (as well as some other methods)
 	Bag();
 
-	// TODO: if needed, we can implement a copy constructor, but that will likely involve cloning pennants
-	Bag(const Bag& other) = delete;	
+	Bag(const Bag& other);	
 
 	Bag(Bag&& other) = default;
 
+	// TODO: define the copy assignment operator
 	Bag& operator = (const Bag& other) = delete;
 
 	Bag& operator = (Bag&& other) = default;

@@ -1,9 +1,32 @@
 #include "bag.h"
 
+#include <iostream>		// TEST!
+
 Bag::Bag()
 {
 
 }
+
+//Bag::Bag(const Bag& other)
+//	: pennants(other.pennants.size())
+//{
+//	for (std::unique_ptr<Pennant>& pennant : this->pennants)
+//	{
+//		pennant = std::make_unique<Pennant>();
+//	}
+//}
+
+Bag::Bag(const Bag& other)
+{
+	std::cout << "Bag::Bag(other) copy" << std::endl;	// !TEST!
+
+	this->pennants.reserve(other.pennants.size());
+	for (const std::unique_ptr<Pennant>& pennant : other.pennants)
+	{
+		this->pennants.push_back(std::make_unique<Pennant>(*pennant));
+	}
+}
+
 
 //void Bag::insert(std::unique_ptr<Pennant> pennant)
 void Bag::insert(int vertex)
