@@ -37,8 +37,6 @@ public:
 private:
 	// TODO: consider using a different container
 	std::vector<std::unique_ptr<Pennant>> pennants;
-	//std::vector<std::shared_ptr<Pennant>> pennants;
-	//std::vector<Pennant> pennants;
 };	// Bag
 
 #endif	// BAG_H

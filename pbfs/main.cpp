@@ -11,35 +11,16 @@ using namespace std;
 
 
 
-
-//class Graph
-//{
-//	friend ostream& operator << (ostream& stream, const Graph& g);
-//public:
-//	Graph(int nVertices, double pEdge, bool directed);
-//	
-//
-//private:
-//	int nVertices;
-//	double pEdge;
-//	bool directed;
-//	vector<vector<int>> adj;
-//};
-
 int main(int argc, char* argv[])
 {	
-	
-	/*RandomUniformBuilder<ExecutionStrategy::ParallelOmp, std::mt19937> builder;
-	Graph g = builder.create(5, 0.5, false);
-	cout << g;*/
-
+		
 	GraphBuilder<RandomUniform<ExecutionStrategy::ParallelOmp, std::mt19937>> builder;
-	Graph g = builder.create(10, 0.5, false);
-	g.save("./data/c.txt");
+	Graph g = builder.create(50, 0.5, false);
+	g.save("./data/d.txt");
 	cout << g;
 
 	/*GraphBuilder<TextFile> builder;
-	Graph g = builder.create("./data/b.txt");
+	Graph g = builder.create("./data/c.txt");
 	cout << g;*/
 
 	auto start = chrono::system_clock::now();

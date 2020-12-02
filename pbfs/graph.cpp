@@ -70,25 +70,6 @@ std::vector<int> Graph::bfs<ExecutionStrategy::ParallelOmp>(int vertex) const
 	return dist;
 }
 
-//std::vector<int> Graph::pbfs(int vertex) const
-//{
-//	std::vector<int> dist(this->adj.size(), -1);
-//	dist[vertex] = 0;
-//
-//	int d = 0;
-//
-//	Bag curBag;
-//	curBag.insert(vertex);
-//
-//	while (!curBag.isEmpty())
-//	{
-//		Bag nextBag = processLevel(curBag, d++, dist);
-//		curBag = std::move(nextBag);
-//	}
-//
-//	return dist;
-//}
-
 Bag Graph::processLevel(Bag& inBag, int level, std::vector<int>& dist) const
 {
 	Bag outBag;
@@ -96,10 +77,6 @@ Bag Graph::processLevel(Bag& inBag, int level, std::vector<int>& dist) const
 	// TODO: the paper suggests a parallel for
 	for (int i = 0; i < inBag.getSize(); ++i)	// the size here means the number of pennants in the bag
 	{
-		//std::weak_ptr<Pennant> pennant = inBag.getPennant(i);
-		//if (auto sp = pennant.lock())
-		//	processPennant(*sp, outBag, level, dist);
-
 		if (Pennant* pennant = inBag.getPennant(i))		// TODO: consider using a shared pointer
 			processPennant(*pennant, outBag, level, dist);
 	}
@@ -113,7 +90,6 @@ void Graph::processPennant(Pennant& pennant, Bag& outBag, int level, std::vector
 {
 	if (pennant.getSize() > 1)
 	{
-		//Pennant &other = pennant.split();
 		std::unique_ptr<Pennant> other = pennant.split();
 		processPennant(*other, outBag, level, dist);		// spawn
 		processPennant(pennant, outBag, level, dist);	
