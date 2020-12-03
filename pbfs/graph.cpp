@@ -79,20 +79,36 @@ std::vector<int> Graph::bfs(int vertex) const
 	return dist;
 }
 
+
 Bag Graph::processLevel(Bag& inBag, int level, std::vector<int>& dist) const
 {
-	Bag outBag;
+	//std::cout << inBag.getSize() << std::endl;
 
-	// TODO: the paper suggests a parallel for
-	for (int i = 0; i < inBag.getSize(); ++i)	// the size here means the number of pennants in the bag
+	//Bag outBag;
+	std::vector<Bag> outBags(omp_get_max_threads());
+
+#pragma omp parallel 
 	{
-		if (Pennant* pennant = inBag.getPennant(i))		// TODO: consider using a shared pointer
-			processPennant(*pennant, outBag, level, dist);
+		// the paper suggests a parallel for
+#pragma omp for schedule(dynamic, 1)
+		for (int i = 0; i < inBag.getSize(); ++i)	// the size here means the number of pennants in the bag
+		{
+//#pragma omp critical
+//			{
+//				std::cout << i << " " << omp_get_thread_num() << " " << omp_get_num_threads() << std::endl;
+//			}
+
+			if (Pennant* pennant = inBag.getPennant(i))		// TODO: consider using a shared pointer
+				processPennant(*pennant, outBags[omp_get_thread_num()], level, dist);
+		}
+
+		// combine thread-private bags
+#pragma omp single
+		reduce(outBags.begin(), outBags.end());
 	}
 
-	// TODO: may need to combine thread-private bags
-
-	return outBag;
+	// NRVO doesn't seem to help here
+	return std::move(outBags[0]);
 }
 
 void Graph::processPennant(Pennant& pennant, Bag& outBag, int level, std::vector<int> &dist) const
