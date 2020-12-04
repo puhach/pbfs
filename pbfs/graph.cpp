@@ -80,6 +80,24 @@ std::vector<int> Graph::bfs(int vertex) const
 }
 
 
+// TODO: find a better place for this function
+template <typename Iterator>
+Bag& reduce(Iterator first, Iterator last)
+{
+	assert(first <= last);
+
+	if (last - first <= 1)		// one item or less
+		return *first;
+	else // two items or more
+	{
+		auto k = (last - first) / 2;
+		Bag& bagA = reduce(first, first + k);	// spawn
+		Bag& bagB = reduce(first + k, last);	// spawn
+		// sync
+		return bagA.merge(std::move(bagB));
+	}
+}
+
 Bag Graph::processLevel(Bag& inBag, int level, std::vector<int>& dist) const
 {
 	//std::cout << inBag.getSize() << std::endl;

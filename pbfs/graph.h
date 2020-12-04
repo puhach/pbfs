@@ -44,6 +44,8 @@ private:
 
 	void processPennant(Pennant &pennant, Bag &outBag, int level, std::vector<int> &dist) const;
 
+	//void reduce(std::vector<Bag>::iterator a, std::vector<Bag>::iterator b);
+
 	/*int nVertices;
 	double pEdge;
 	bool directed;*/
