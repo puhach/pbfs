@@ -34,7 +34,15 @@ public:
 	Pennant* getPennant(int index) const { return pennants[index].get(); }
 	//std::weak_ptr<Pennant> getPennant(int index) const { return pennants[index]; }
 
+	Bag& merge(Bag&& other);
+
 private:
+
+	//std::unique_ptr<Pennant> fullAdd(std::unique_ptr<Pennant>& pennant, std::unique_ptr<Pennant>& other, std::unique_ptr<Pennant>& carry) const;
+	//std::unique_ptr<Pennant> add(std::unique_ptr<Pennant>& pennant, std::unique_ptr<Pennant>& carry) const;
+	void fullAdd(std::unique_ptr<Pennant> &pennant, std::unique_ptr<Pennant> &other, std::unique_ptr<Pennant> &carry) const;
+	void add(std::unique_ptr<Pennant>& pennant, std::unique_ptr<Pennant>& carry) const;
+
 	// TODO: consider using a different container
 	std::vector<std::unique_ptr<Pennant>> pennants;
 };	// Bag
