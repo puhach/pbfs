@@ -11,11 +11,11 @@ public:
 	constexpr Pennant(int vertex) noexcept
 		: vertex(vertex), size(1) {}
 
-	// TODO: if needed, we can implement a copy constructor, but it may be inefficient
-	Pennant(const Pennant& other) = delete;
+	Pennant(const Pennant& other);
 
 	Pennant(Pennant&& other) = default;
 
+	// TODO: define the copy assignment operator
 	Pennant& operator = (const Pennant& other) = delete;
 
 	Pennant& operator = (Pennant&& other) = default;
@@ -27,6 +27,9 @@ public:
 	std::unique_ptr<Pennant> split();
 
 	void merge(std::unique_ptr<Pennant>& other);
+
+	// TODO: perhaps implement an overloaded version of merge:
+	// Pennant & merge(Pennant &&other);
 
 private:
 	int vertex;

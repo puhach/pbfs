@@ -3,6 +3,20 @@
 #include <stdexcept>
 #include <cassert>
 
+#include <iostream>     // !TEST!
+
+
+Pennant::Pennant(const Pennant& other)
+    : vertex(other.vertex)
+    , size(other.size)
+    , left(other.left ? std::make_unique<Pennant>(*other.left) : nullptr)
+    , right(other.right ? std::make_unique<Pennant>(*other.right) : nullptr)
+{
+    std::cout << "Pennant::Pennant(other) copy" << std::endl;
+
+}
+
+
 std::unique_ptr<Pennant> Pennant::split()
 {
     if (this->size < 2)
