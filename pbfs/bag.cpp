@@ -42,8 +42,9 @@ void Bag::insert(int vertex)
 		}
 		else
 		{
-			//pennant->merge(pennants[i].release());	
-			pennant->merge(pennants[i]);	// destructively reads the pennants[i] and sets it to null
+			///pennant->merge(pennants[i].release());	
+			//pennant->merge(pennants[i]);	// destructively reads the pennants[i] and sets it to null
+			pennant->merge(std::move(pennants[i]));	
 		}
 	}
 
@@ -104,12 +105,14 @@ void Bag::fullAdd(std::unique_ptr<Pennant>& pennant, std::unique_ptr<Pennant>& o
 		{
 			if (carry)
 			{
-				carry->merge(other);
+				//carry->merge(other);
+				carry->merge(std::move(other));
 				assert(!other);
 			}
 			else
 			{
-				pennant->merge(other);
+				//pennant->merge(other);
+				pennant->merge(std::move(other));
 				assert(!other);
 				carry = std::move(pennant);
 				assert(!pennant);
@@ -119,7 +122,8 @@ void Bag::fullAdd(std::unique_ptr<Pennant>& pennant, std::unique_ptr<Pennant>& o
 		{
 			if (carry)
 			{
-				carry->merge(pennant);
+				//carry->merge(pennant);
+				carry->merge(std::move(pennant));
 				assert(!pennant);
 			}
 
@@ -132,7 +136,8 @@ void Bag::fullAdd(std::unique_ptr<Pennant>& pennant, std::unique_ptr<Pennant>& o
 		{
 			if (carry)
 			{
-				carry->merge(other);
+				//carry->merge(other);
+				carry->merge(std::move(other));
 				assert(!other);
 			}
 			else

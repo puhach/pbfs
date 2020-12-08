@@ -26,7 +26,7 @@ public:
 
 	std::unique_ptr<Pennant> split();
 
-	void merge(std::unique_ptr<Pennant>& other);
+	void merge(std::unique_ptr<Pennant> other);
 
 	// TODO: perhaps implement an overloaded version of merge:
 	// Pennant & merge(Pennant &&other);

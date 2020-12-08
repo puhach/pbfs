@@ -32,7 +32,7 @@ std::unique_ptr<Pennant> Pennant::split()
 }
 
 
-void Pennant::merge(std::unique_ptr<Pennant>& other)
+void Pennant::merge(std::unique_ptr<Pennant> other)
 {
     if (!other)
         return;
