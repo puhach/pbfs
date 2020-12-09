@@ -9,25 +9,48 @@
 // Instantiate all templates we need (allows for implementation to be separated from declaration).
 // Alternatively, we could include the definition (.cpp) into the header file.
 
-template class GraphBuilder<RandomUniform<ExecutionStrategy::Sequential, std::minstd_rand0>>;
-template class GraphBuilder<RandomUniform<ExecutionStrategy::Sequential, std::minstd_rand>>;
-template class GraphBuilder<RandomUniform<ExecutionStrategy::Sequential, std::mt19937>>;
-template class GraphBuilder<RandomUniform<ExecutionStrategy::Sequential, std::mt19937_64>>;
-template class GraphBuilder<RandomUniform<ExecutionStrategy::Sequential, std::ranlux24_base>>;
-template class GraphBuilder<RandomUniform<ExecutionStrategy::Sequential, std::ranlux48_base>>;
-template class GraphBuilder<RandomUniform<ExecutionStrategy::Sequential, std::ranlux24>>;
-template class GraphBuilder<RandomUniform<ExecutionStrategy::Sequential, std::ranlux48>>;
-template class GraphBuilder<RandomUniform<ExecutionStrategy::Sequential, std::knuth_b>>;
+// TODO: these are, probably, not required since we still need to instantiate the methods for LLVM clang
 
-template class GraphBuilder<RandomUniform<ExecutionStrategy::ParallelOmp, std::minstd_rand0>>;
-template class GraphBuilder<RandomUniform<ExecutionStrategy::ParallelOmp, std::minstd_rand>>;
-template class GraphBuilder<RandomUniform<ExecutionStrategy::ParallelOmp, std::mt19937>>;
-template class GraphBuilder<RandomUniform<ExecutionStrategy::ParallelOmp, std::mt19937_64>>;
-template class GraphBuilder<RandomUniform<ExecutionStrategy::ParallelOmp, std::ranlux24_base>>;
-template class GraphBuilder<RandomUniform<ExecutionStrategy::ParallelOmp, std::ranlux48_base>>;
-template class GraphBuilder<RandomUniform<ExecutionStrategy::ParallelOmp, std::ranlux24>>;
-template class GraphBuilder<RandomUniform<ExecutionStrategy::ParallelOmp, std::ranlux48>>;
-template class GraphBuilder<RandomUniform<ExecutionStrategy::ParallelOmp, std::knuth_b>>;
+//template class GraphBuilder<RandomUniform<ExecutionStrategy::Sequential, std::minstd_rand0>>;
+//template class GraphBuilder<RandomUniform<ExecutionStrategy::Sequential, std::minstd_rand>>;
+//template class GraphBuilder<RandomUniform<ExecutionStrategy::Sequential, std::mt19937>>;
+//template class GraphBuilder<RandomUniform<ExecutionStrategy::Sequential, std::mt19937_64>>;
+//template class GraphBuilder<RandomUniform<ExecutionStrategy::Sequential, std::ranlux24_base>>;
+//template class GraphBuilder<RandomUniform<ExecutionStrategy::Sequential, std::ranlux48_base>>;
+//template class GraphBuilder<RandomUniform<ExecutionStrategy::Sequential, std::ranlux24>>;
+//template class GraphBuilder<RandomUniform<ExecutionStrategy::Sequential, std::ranlux48>>;
+//template class GraphBuilder<RandomUniform<ExecutionStrategy::Sequential, std::knuth_b>>;
+//
+//template class GraphBuilder<RandomUniform<ExecutionStrategy::ParallelOmp, std::minstd_rand0>>;
+//template class GraphBuilder<RandomUniform<ExecutionStrategy::ParallelOmp, std::minstd_rand>>;
+//template class GraphBuilder<RandomUniform<ExecutionStrategy::ParallelOmp, std::mt19937>>;
+//template class GraphBuilder<RandomUniform<ExecutionStrategy::ParallelOmp, std::mt19937_64>>;
+//template class GraphBuilder<RandomUniform<ExecutionStrategy::ParallelOmp, std::ranlux24_base>>;
+//template class GraphBuilder<RandomUniform<ExecutionStrategy::ParallelOmp, std::ranlux48_base>>;
+//template class GraphBuilder<RandomUniform<ExecutionStrategy::ParallelOmp, std::ranlux24>>;
+//template class GraphBuilder<RandomUniform<ExecutionStrategy::ParallelOmp, std::ranlux48>>;
+//template class GraphBuilder<RandomUniform<ExecutionStrategy::ParallelOmp, std::knuth_b>>;
+
+// LLVM clang requires method instantiation rather than class instantiation
+template Graph GraphBuilder<RandomUniform<ExecutionStrategy::Sequential, std::minstd_rand0>>::create(int nVertices, double pEdge, bool directed);
+template Graph GraphBuilder<RandomUniform<ExecutionStrategy::Sequential, std::minstd_rand>>::create(int nVertices, double pEdge, bool directed);
+template Graph GraphBuilder<RandomUniform<ExecutionStrategy::Sequential, std::mt19937>>::create(int nVertices, double pEdge, bool directed);
+template Graph GraphBuilder<RandomUniform<ExecutionStrategy::Sequential, std::mt19937_64>>::create(int nVertices, double pEdge, bool directed);
+template Graph GraphBuilder<RandomUniform<ExecutionStrategy::Sequential, std::ranlux24_base>>::create(int nVertices, double pEdge, bool directed);
+template Graph GraphBuilder<RandomUniform<ExecutionStrategy::Sequential, std::ranlux48_base>>::create(int nVertices, double pEdge, bool directed);
+template Graph GraphBuilder<RandomUniform<ExecutionStrategy::Sequential, std::ranlux24>>::create(int nVertices, double pEdge, bool directed);
+template Graph GraphBuilder<RandomUniform<ExecutionStrategy::Sequential, std::ranlux48>>::create(int nVertices, double pEdge, bool directed);
+template Graph GraphBuilder<RandomUniform<ExecutionStrategy::Sequential, std::knuth_b>>::create(int nVertices, double pEdge, bool directed);
+
+template Graph GraphBuilder<RandomUniform<ExecutionStrategy::ParallelOmp, std::minstd_rand0>>::create(int nVertices, double pEdge, bool directed);
+template Graph GraphBuilder<RandomUniform<ExecutionStrategy::ParallelOmp, std::minstd_rand>>::create(int nVertices, double pEdge, bool directed);
+template Graph GraphBuilder<RandomUniform<ExecutionStrategy::ParallelOmp, std::mt19937>>::create(int nVertices, double pEdge, bool directed);
+template Graph GraphBuilder<RandomUniform<ExecutionStrategy::ParallelOmp, std::mt19937_64>>::create(int nVertices, double pEdge, bool directed);
+template Graph GraphBuilder<RandomUniform<ExecutionStrategy::ParallelOmp, std::ranlux24_base>>::create(int nVertices, double pEdge, bool directed);
+template Graph GraphBuilder<RandomUniform<ExecutionStrategy::ParallelOmp, std::ranlux48_base>>::create(int nVertices, double pEdge, bool directed);
+template Graph GraphBuilder<RandomUniform<ExecutionStrategy::ParallelOmp, std::ranlux24>>::create(int nVertices, double pEdge, bool directed);
+template Graph GraphBuilder<RandomUniform<ExecutionStrategy::ParallelOmp, std::ranlux48>>::create(int nVertices, double pEdge, bool directed);
+template Graph GraphBuilder<RandomUniform<ExecutionStrategy::ParallelOmp, std::knuth_b>>::create(int nVertices, double pEdge, bool directed);
 
 
 template <class RandomEngine>
