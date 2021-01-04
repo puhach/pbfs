@@ -141,15 +141,52 @@ void Graph::processPennant(Pennant& pennant, Bag& outBag, int level, std::vector
 	else
 	{
 		int u = pennant.getVertex();	// head of the pennant
-		for (int i = 0; i < adj[u].size(); ++i)		// parallel
+		for (int i = 0; i < adj[u].size(); ++i)		// parallel 
 		{
 			int v = adj[u][i];
 
-			if (dist[v] < 0)
+			// Since multiple threads can be checking the vertex v, we must ensure that reading and writing of dist[v] is synchronized
+			int d;
+#pragma omp atomic read
+			d = dist[v];
+
+			// Even if multiple threads enter the following section, they will try to set dist[v] to the same value. This is due to 
+			// the fact that PBFS algorithm processes the graph level-by-level sequentially. 
+			if (d < 0)	
 			{
-				dist[v] = level + 1;	// atomic
-				outBag.insert(v);	// may need to use a private bag for each thread
+#pragma omp atomic write
+				dist[v] = level + 1;
+
+				// Each thread has a private bag, so no critical section needed. There is a chance that the same vertex v is added
+				// to the next level twice (by different threads), but that will not affect the program correctness.
+				outBag.insert(v);	
 			}
+
+			// The solution from the paper using double checked locking doesn't seem to guarantee that reading and writing dist[v] 
+			// doesn't create a race 
+
+			/*
+			// We double check whether the vertex was visited to reduce the number of needless locks.
+			// Reading the value of dist[v] outside the critical section is safe as long as we make sure that the same
+			// vertex is never added to the next level multiple times. ??
+			if (dist[v] < 0)	
+			{
+				bool vUpdated = false;
+
+#pragma omp critical
+				if (dist[v] < 0)
+				{
+					dist[v] = level + 1;	
+					vUpdated = true;
+				}	// dist[v] < 0 (critical)
+
+				// Although we use a private bag for each thread and calling insert outside the critical section is safe, 
+				// we still have to ensure that the same vertex is not added to the next level twice. This way we eliminate
+				// the chance of checking the same v ?? 
+				if (vUpdated)
+					outBag.insert(v);	
+			}	// dist[v] < 0
+			*/
 		}
 	}	// pennant size <= 1
 }
