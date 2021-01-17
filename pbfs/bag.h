@@ -30,7 +30,7 @@ public:
 	
 	bool isEmpty() const { return pennants.empty(); }
 
-	std::size_t getSize() const { return pennants.size(); }
+	std::size_t getSize() const noexcept { return pennants.size(); }
 
 	// According to C++ core guidelines (resource management rule summary), a raw pointer/reference is not owning
 	Pennant* getPennant(int index) const { return pennants[index].get(); }
