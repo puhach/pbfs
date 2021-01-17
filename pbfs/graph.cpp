@@ -83,6 +83,7 @@ std::vector<int> Graph::bfs(int vertex) const
 // TODO: find a better place for this function
 template <typename Iterator>
 Bag& reduce(Iterator first, Iterator last)
+//void reduce(Iterator first, Iterator last)
 {
 	assert(first <= last);
 
@@ -91,10 +92,29 @@ Bag& reduce(Iterator first, Iterator last)
 	else // two items or more
 	{
 		auto k = (last - first) / 2;
+
+		/*
+//#pragma omp task
 		Bag& bagA = reduce(first, first + k);	// spawn
+
+//#pragma omp task
 		Bag& bagB = reduce(first + k, last);	// spawn
+
 		// sync
+//#pragma omp taskwait
+
 		return bagA.merge(std::move(bagB));
+		*/
+
+#pragma omp task
+		reduce(first, first+k);
+
+#pragma omp task
+		reduce(first+k, last);
+
+#pragma omp taskwait
+		//first->merge(std::move(*(first + k)));
+		return first->merge(std::move(*(first+k)));
 	}
 }
 
