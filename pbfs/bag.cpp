@@ -1,11 +1,11 @@
 #include "bag.h"
 
-#include <iostream>		// TEST!
+//#include <iostream>		// TEST!
 
-Bag::Bag()
-{
-
-}
+//Bag::Bag()
+//{
+//
+//}
 
 //Bag::Bag(const Bag& other)
 //	: pennants(other.pennants.size())
@@ -18,7 +18,7 @@ Bag::Bag()
 
 Bag::Bag(const Bag& other)
 {
-	std::cout << "Bag::Bag(other) copy" << std::endl;	// !TEST!
+	//std::cout << "Bag::Bag(other) copy" << std::endl;	// !TEST!
 
 	this->pennants.reserve(other.pennants.size());
 	for (const std::unique_ptr<Pennant>& pennant : other.pennants)

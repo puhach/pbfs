@@ -6,11 +6,13 @@
 #include <vector>
 #include <memory>
 
+// TODO: check which methods can be marked noexcept
 class Bag
 {
 public:
-	// TODO: consider making this constructor constexpr and noexcept (as well as some other methods)
-	Bag();
+	// In C++17 this constructor can't be made constexpr since we are internally using std::vector, whose 
+	// constructor is not constexpr until C++20	
+	/*constexpr*/ Bag() = default;
 
 	Bag(const Bag& other);	
 
