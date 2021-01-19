@@ -154,9 +154,21 @@ void Graph::processPennant(Pennant& pennant, Bag& outBag, int level, std::vector
 	if (pennant.getSize() > 1)
 	{
 		std::unique_ptr<Pennant> other = pennant.split();
-		processPennant(*other, outBag, level, dist);		// spawn
-		processPennant(pennant, outBag, level, dist);	
-		// sync
+
+//#pragma omp single
+		//{
+		Bag outBagOther;
+#pragma omp task shared(other, outBagOther, level, dist)
+		//processPennant(*other, outBag, level, dist);		// spawn
+		processPennant(*other, outBagOther, level, dist);		// spawn
+
+#pragma omp task shared(pennant, outBag, level, dist)
+		//processPennant(pennant, outBag, level, dist);			
+		processPennant(pennant, outBag, level, dist);
+		//}	// sync
+#pragma omp taskwait	// sync
+
+		outBag.merge(std::move(outBagOther));
 	}	// pennant size > 1
 	else
 	{
