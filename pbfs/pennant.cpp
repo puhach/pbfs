@@ -17,7 +17,7 @@ Pennant::Pennant(const Pennant& other)
 }
 
 
-std::unique_ptr<Pennant> Pennant::split()
+std::unique_ptr<Pennant> Pennant::split() noexcept
 {
     if (this->size < 2)
         return nullptr;

@@ -24,7 +24,7 @@ public:
 
 	constexpr std::size_t getSize() const noexcept { return size; }
 
-	std::unique_ptr<Pennant> split();
+	std::unique_ptr<Pennant> split() noexcept;
 
 	void merge(std::unique_ptr<Pennant> other);
 
