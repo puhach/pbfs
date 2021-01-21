@@ -6,7 +6,6 @@
 #include <vector>
 #include <memory>
 
-// TODO: check which methods can be marked noexcept
 class Bag
 {
 public:
@@ -28,7 +27,7 @@ public:
 
 	//void insert(std::unique_ptr<Pennant> pennant);
 	
-	bool isEmpty() const { return pennants.empty(); }
+	bool isEmpty() const noexcept { return pennants.empty(); }
 
 	std::size_t getSize() const noexcept { return pennants.size(); }
 
