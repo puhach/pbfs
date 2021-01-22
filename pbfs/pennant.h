@@ -15,8 +15,7 @@ public:
 
 	Pennant(Pennant&& other) = default;
 
-	// TODO: define the copy assignment operator
-	Pennant& operator = (const Pennant& other) = delete;
+	Pennant& operator = (const Pennant& other);
 
 	Pennant& operator = (Pennant&& other) = default;
 

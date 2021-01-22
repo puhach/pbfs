@@ -3,8 +3,9 @@
 #include <stdexcept>
 #include <cassert>
 
-#include <iostream>     // !TEST!
+//#include <iostream>     // !TEST!
 
+// The copy constructor and the copy assignment operator are not noexcept because std::make_unique may fail to allocate memory
 
 Pennant::Pennant(const Pennant& other)
     : vertex(other.vertex)
@@ -12,8 +13,16 @@ Pennant::Pennant(const Pennant& other)
     , left(other.left ? std::make_unique<Pennant>(*other.left) : nullptr)
     , right(other.right ? std::make_unique<Pennant>(*other.right) : nullptr)
 {
-    std::cout << "Pennant::Pennant(other) copy" << std::endl;
+    //std::cout << "Pennant::Pennant(other) copy" << std::endl;
+}
 
+Pennant& Pennant::operator = (const Pennant& other)
+{
+    this->vertex = other.vertex;
+    this->size = other.size;
+    this->left = other.left ? std::make_unique<Pennant>(*other.left) : nullptr;
+    this->right = other.right ? std::make_unique<Pennant>(*other.right) : nullptr;
+    return *this;
 }
 
 
