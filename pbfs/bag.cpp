@@ -27,6 +27,26 @@ Bag::Bag(const Bag& other)
 	}
 }
 
+Bag& Bag::operator = (const Bag& other)
+{
+	this->pennants.resize(other.pennants.size());
+	////for (auto i = 0; i < other.pennants.size(); ++i)
+	//for (decltype(this->pennants)::size_type i = 0; i < other.pennants.size(); ++i)
+	//{	
+	//	const auto& otherPennant = other.pennants[i];
+	//	this->pennants[i] = otherPennant ? std::make_unique<Pennant>(*otherPennant) : nullptr;
+	//}
+
+	auto it = this->pennants.begin();
+	auto otherIt = other.pennants.cbegin();
+	for (; it != this->pennants.end(); ++it, ++otherIt)
+	{
+		*it = *otherIt ? std::make_unique<Pennant>(**otherIt) : nullptr;
+	}
+
+	return *this;
+}
+
 
 //void Bag::insert(std::unique_ptr<Pennant> pennant)
 void Bag::insert(int vertex)

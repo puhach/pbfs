@@ -17,8 +17,7 @@ public:
 
 	Bag(Bag&& other) = default;
 
-	// TODO: define the copy assignment operator
-	Bag& operator = (const Bag& other) = delete;
+	Bag& operator = (const Bag& other);
 
 	Bag& operator = (Bag&& other) = default;
 
