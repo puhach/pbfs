@@ -29,7 +29,13 @@ public:
 	// Since C++17 vector's move constructor is noexcept
 	Graph(std::vector<std::vector<int>>&& adj) noexcept : adj(std::move(adj)) {}
 
-	// TODO: define copy/move constructors and copy/move assignment operators
+	Graph(const Graph& other) = default;
+
+	Graph(Graph&& other) = default;
+
+	Graph& operator = (const Graph& other) = default;
+
+	Graph& operator = (Graph&& other) = default;
 
 	template <ExecutionStrategy executionStrategy>
 	std::vector<int> bfs(int vertex) const;
