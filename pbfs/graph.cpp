@@ -2,6 +2,7 @@
 //#include "pennant.h"
 
 #include <iostream>
+#include <iterator>
 #include <utility>
 #include <vector>
 #include <queue>
