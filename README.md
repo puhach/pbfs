@@ -14,3 +14,13 @@ PBFS represents levels using an unordered-set data structure, called a bag, whic
 
 • Bag unioning
 
+A bag is a collection of pennants, no two of which have the same size. A pennant is a tree of 2<sup>k</sup> nodes, where k is a nonnegative integer. Each node x in this tree contains two pointers (left and right) to its children. The root of the tree has only a left child, which is a complete binary tree of the remaining elements. Two pennants x and y of size 2<sup>k</sup> can be combined to form a pennant of size 2<sup>k+1</sup> in O(1) time. It is also possible to split a pennant of at least two elements into two parts in O(1) time. 
+
+![Pennant unioning](./assets/pennant_unioning.jpg)
+
+A bag stores pennants in an array S, called the backbone. Each entry S[k] in the backbone contains either a null pointer or a pointer to a pennant of size 2<sup>k</sup>.
+
+![Backbone](./assets/backbone.jpg)
+
+
+
