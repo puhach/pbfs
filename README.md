@@ -28,3 +28,5 @@ Insertion of an element into a bag employs an algorithm similar to that of incre
 
 Since pennant unioning takes constant time, worst-case time to insert a pennant into a bag of n elements is O(log(n)).
 
+Bag unioning uses an algorithm similar to ripple-carry addition of two binary counters. Given three pennants x, y, and z, where each either has size 2<sup>k</sup> or is empty, we can merge them to produce a pair of pennants (s, c), where s has size 2<sup>k</sup> or is empty, and c has size 2<sup>k+1</sup> or is empty. With this idea in mind, we can union two bags by merging corresponding pennants of their backbones and the "carry bit" from the previous step. To compute all entries in the backbone of the resulting bag takes O(log(n)) time.
+
