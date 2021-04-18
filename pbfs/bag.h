@@ -38,8 +38,6 @@ public:
 
 private:
 
-	//std::unique_ptr<Pennant> fullAdd(std::unique_ptr<Pennant>& pennant, std::unique_ptr<Pennant>& other, std::unique_ptr<Pennant>& carry) const;
-	//std::unique_ptr<Pennant> add(std::unique_ptr<Pennant>& pennant, std::unique_ptr<Pennant>& carry) const;
 	void fullAdd(std::unique_ptr<Pennant> &pennant, std::unique_ptr<Pennant> &other, std::unique_ptr<Pennant> &carry) const;
 	void add(std::unique_ptr<Pennant>& pennant, std::unique_ptr<Pennant>& carry) const;
 

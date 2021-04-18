@@ -11,18 +11,10 @@
 #include <stdexcept>
 
 
-//template <class Initializer>
 class Graph
 {
 	friend std::ostream& operator << (std::ostream& stream, const Graph& g);
 public:
-	//Graph(int nVertices, double pEdge, bool directed);
-
-	//template <typename ... Args>
-	//Graph(Args ... args): adj(std::move(Initializer(std::forward<Args>(args)...)).getAdjacencyList()) {}
-
-	//template <class Initializer>
-	//Graph(Initializer initializer);// : adj(std::move(initializer).getAdjacencyList()) {}
 
 	Graph(const std::vector<std::vector<int>> &adj): adj(adj) {}
 

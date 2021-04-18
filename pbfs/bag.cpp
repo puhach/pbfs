@@ -1,25 +1,8 @@
 #include "bag.h"
 
-//#include <iostream>		// TEST!
-
-//Bag::Bag()
-//{
-//
-//}
-
-//Bag::Bag(const Bag& other)
-//	: pennants(other.pennants.size())
-//{
-//	for (std::unique_ptr<Pennant>& pennant : this->pennants)
-//	{
-//		pennant = std::make_unique<Pennant>();
-//	}
-//}
 
 Bag::Bag(const Bag& other)
 {
-	//std::cout << "Bag::Bag(other) copy" << std::endl;	// !TEST!
-
 	this->pennants.reserve(other.pennants.size());
 	for (const std::unique_ptr<Pennant>& pennant : other.pennants)
 	{
@@ -30,13 +13,7 @@ Bag::Bag(const Bag& other)
 Bag& Bag::operator = (const Bag& other)
 {
 	this->pennants.resize(other.pennants.size());
-	////for (auto i = 0; i < other.pennants.size(); ++i)
-	//for (decltype(this->pennants)::size_type i = 0; i < other.pennants.size(); ++i)
-	//{	
-	//	const auto& otherPennant = other.pennants[i];
-	//	this->pennants[i] = otherPennant ? std::make_unique<Pennant>(*otherPennant) : nullptr;
-	//}
-
+	
 	auto it = this->pennants.begin();
 	auto otherIt = other.pennants.cbegin();
 	for (; it != this->pennants.end(); ++it, ++otherIt)
@@ -62,7 +39,6 @@ void Bag::insert(int vertex)
 		}
 		else
 		{
-			///pennant->merge(pennants[i].release());	
 			//pennant->merge(pennants[i]);	// destructively reads the pennants[i] and sets it to null
 			pennant->merge(std::move(pennants[i]));	
 		}
@@ -81,13 +57,11 @@ Bag& Bag::merge(Bag&& other)
 	{
 		for (auto i = 0; i < other.getSize(); ++i)
 		{
-			//carry = fullAdd(this->pennants[i], other.pennants[i], carry);
 			fullAdd(this->pennants[i], other.pennants[i], carry);
 		}
 
 		for (auto i = other.getSize(); carry && i < getSize(); ++i)
 		{
-			//carry = add(this->pennants[i], carry);
 			add(this->pennants[i], carry);
 		}
 
@@ -98,13 +72,11 @@ Bag& Bag::merge(Bag&& other)
 	{
 		for (auto i = 0; i < this->getSize(); ++i)
 		{
-			//carry = fullAdd(other.pennants[i], this->pennants[i], carry);
 			fullAdd(other.pennants[i], this->pennants[i], carry);
 		}
 
 		for (auto i = this->getSize(); carry && i < other.getSize(); ++i)
 		{
-			//carry = add(other.pennants[i], carry);
 			add(other.pennants[i], carry);
 		}
 
@@ -125,13 +97,11 @@ void Bag::fullAdd(std::unique_ptr<Pennant>& pennant, std::unique_ptr<Pennant>& o
 		{
 			if (carry)
 			{
-				//carry->merge(other);
 				carry->merge(std::move(other));
 				assert(!other);
 			}
 			else
 			{
-				//pennant->merge(other);
 				pennant->merge(std::move(other));
 				assert(!other);
 				carry = std::move(pennant);
@@ -142,7 +112,6 @@ void Bag::fullAdd(std::unique_ptr<Pennant>& pennant, std::unique_ptr<Pennant>& o
 		{
 			if (carry)
 			{
-				//carry->merge(pennant);
 				carry->merge(std::move(pennant));
 				assert(!pennant);
 			}
@@ -156,7 +125,6 @@ void Bag::fullAdd(std::unique_ptr<Pennant>& pennant, std::unique_ptr<Pennant>& o
 		{
 			if (carry)
 			{
-				//carry->merge(other);
 				carry->merge(std::move(other));
 				assert(!other);
 			}
@@ -174,7 +142,6 @@ void Bag::fullAdd(std::unique_ptr<Pennant>& pennant, std::unique_ptr<Pennant>& o
 	}	// !pennant
 }
 
-//std::unique_ptr<Pennant> Bag::add(std::unique_ptr<Pennant>& pennant, std::unique_ptr<Pennant>& other) const
 void Bag::add(std::unique_ptr<Pennant>& pennant, std::unique_ptr<Pennant>& carry) const
 {
 	if (pennant)

@@ -57,12 +57,9 @@ template <class RandomEngine>
 Graph GraphBuilder<RandomUniform<ExecutionStrategy::Sequential, RandomEngine>>::create(int nVertices, double pEdge, bool directed)
 {	
 	std::random_device rd;
-	//mt19937 gen;
 	RandomEngine gen{rd()};
 	std::uniform_real_distribution<double> dist(0, 1);
 	std::vector<std::vector<int>> adj(nVertices);
-
-	//adj.resize(nVertices);
 
 	for (int v = 0; v < nVertices; ++v)
 	{
@@ -88,84 +85,10 @@ Graph GraphBuilder<RandomUniform<ExecutionStrategy::ParallelOmp, RandomEngine>>:
 {
 	std::vector<std::vector<int>> adj(nVertices);
 	
-	/*
-vector<unsigned long long> numForward(nVertices);
-
-#pragma omp parallel
-	{
-		// these instances will be private for each thread
-		random_device rd;
-		mt19937 gen;
-		uniform_real_distribution<double> dist(0, 1);
-
-		//cout << omp_get_thread_num() << endl;
-
-		// add forward edges
-#pragma omp for
-		for (int v = 0; v < nVertices; ++v)
-		{
-			for (int u = v + 1; u < nVertices; ++u)
-			{
-				if (dist(gen) < pEdge)
-					adj[v].push_back(u);
-			}	// u
-
-			numForward[v] = adj[v].size();
-		}	// v
-
-		// add backward edges
-		if (directed)
-		{
-#pragma omp for
-			for (int v = 0; v < nVertices; ++v)
-			{
-				for (int u = 0; u < v; ++u)
-				{
-					if (dist(gen) < pEdge)
-						adj[v].push_back(u);
-				} // u
-			} // v
-		} // directed
-		else
-		{
-			for (int v = 0; v < nVertices; ++v)
-			{
-				auto& neighbors = adj[v];
-
-//#pragma omp critical
-//				{
-//					cout << "begin: " << omp_get_thread_num() << " : " << v << " " << numForward[v] << endl;
-//				}
-
-#pragma omp for
-				//for (int j = 0; j < neighbors.size(); ++j)
-				for (int j = 0; j < numForward[v]; ++j)
-				{
-//#pragma omp critical
-//					{
-//						cout << "innner: " << omp_get_thread_num() << " : " << j << " " << v << endl;
-//					}
-
-					int u = neighbors[j];
-					//if (u > v)	// ignore backward edges that we have just added
-					adj[u].push_back(v);	// all neighbors are different and not equal to v
-				} // for j
-
-//#pragma omp critical
-//				{
-//					cout << "end: " << omp_get_thread_num() << " : " << v << endl;
-//				}
-			} // for v
-		} // undirected
-	}	// omp parallel
-	*/
-
-
 #pragma omp parallel 
 	{
 		// these instances will be private for each thread
 		std::random_device rd;
-		//mt19937 gen(rd());
 		RandomEngine gen{rd()};
 		std::uniform_real_distribution<double> dist{ 0, 1 };
 
@@ -200,10 +123,6 @@ vector<unsigned long long> numForward(nVertices);
 #pragma omp for
 				for (int j = 0; j < neighbors.size(); ++j)
 				{
-					//#pragma omp critical 
-					//					{
-					//						cout << omp_get_thread_num() << " " << v << endl;
-					//					}
 					int u = neighbors[j];
 					if (u > v)	// ignore backward edges that we have just added
 						adj[u].push_back(v);

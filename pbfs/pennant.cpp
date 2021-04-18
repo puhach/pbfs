@@ -3,7 +3,6 @@
 #include <stdexcept>
 #include <cassert>
 
-//#include <iostream>     // !TEST!
 
 // The copy constructor and the copy assignment operator are not noexcept because std::make_unique may fail to allocate memory
 

@@ -11,7 +11,6 @@ Graph GraphBuilder<TextFile>::create(const std::string &fileName)
 	//	throw std::runtime_error(std::string("Input file doesn't exist: ").append(fileName));
 
 	std::ifstream in(fileName, std::ios::in);
-	//assert(in.is_open());
 	if (!in)
 		throw std::runtime_error(std::string("Failed to open the input file: ").append(fileName));
 

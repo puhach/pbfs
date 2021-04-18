@@ -1,5 +1,4 @@
 #include "graph.h"
-//#include "pennant.h"
 
 #include <iostream>
 #include <iterator>
@@ -18,7 +17,6 @@ template std::vector<int> Graph::bfs<ExecutionStrategy::ParallelOmp>(int vertex)
 
 std::ostream& operator << (std::ostream& stream, const Graph& g)
 {
-	//for (int v = 0; v < g.nVertices; ++v)
 	for (const auto& neighbors : g.adj)
 	{
 		auto v = &neighbors - &g.adj.front();
@@ -60,8 +58,6 @@ std::vector<int> Graph::bfs<ExecutionStrategy::Sequential>(int vertex) const
 // Generic Parallel BFS
 template <ExecutionStrategy executionStrategy>
 std::vector<int> Graph::bfs(int vertex) const
-//template <>
-//std::vector<int> Graph::bfs<ExecutionStrategy::ParallelOmp>(int vertex) const
 {
 	std::vector<int> dist(this->adj.size(), -1);
 	dist[vertex] = 0;
@@ -84,7 +80,6 @@ std::vector<int> Graph::bfs(int vertex) const
 // TODO: find a better place for this function
 template <typename Iterator>
 Bag& reduce(Iterator first, Iterator last)
-//void reduce(Iterator first, Iterator last)
 {
 	assert(first <= last);
 
@@ -121,9 +116,6 @@ Bag& reduce(Iterator first, Iterator last)
 
 Bag Graph::processLevel(Bag& inBag, int level, std::vector<int>& dist) const
 {
-	//std::cout << inBag.getSize() << std::endl;
-
-	//Bag outBag;
 	std::vector<Bag> outBags(omp_get_max_threads());
 
 #pragma omp parallel 
@@ -132,11 +124,6 @@ Bag Graph::processLevel(Bag& inBag, int level, std::vector<int>& dist) const
 #pragma omp for schedule(dynamic, 1)
 		for (int i = 0; i < inBag.getSize(); ++i)	// the size here means the number of pennants in the bag
 		{
-//#pragma omp critical
-//			{
-//				std::cout << i << " " << omp_get_thread_num() << " " << omp_get_num_threads() << std::endl;
-//			}
-
 			if (Pennant* pennant = inBag.getPennant(i))		// TODO: consider using a shared pointer
 				processPennant(*pennant, outBags[omp_get_thread_num()], level, dist);
 		}
@@ -160,11 +147,9 @@ void Graph::processPennant(Pennant& pennant, Bag& outBag, int level, std::vector
 		//{
 		Bag outBagOther;
 #pragma omp task shared(other, outBagOther, level, dist)
-		//processPennant(*other, outBag, level, dist);		// spawn
 		processPennant(*other, outBagOther, level, dist);		// spawn
 
 #pragma omp task shared(pennant, outBag, level, dist)
-		//processPennant(pennant, outBag, level, dist);			
 		processPennant(pennant, outBag, level, dist);
 		//}	// sync
 #pragma omp taskwait	// sync

@@ -7,7 +7,6 @@
 #include <iterator>
 #include <random>
 #include <chrono>
-//#include <filesystem>	// !TEST!
 
 using namespace std;
 
@@ -17,8 +16,7 @@ int main(int argc, char* argv[])
 {	
 	try
 	{
-		//std::cout << filesystem::current_path() << std::endl;
-
+		// Generate a random graph
 		GraphBuilder<RandomUniform<ExecutionStrategy::ParallelOmp, std::mt19937>> builder;
 		Graph g = builder.create(5000, 0.3, false);
 		//g.save("./data/d.txt");
@@ -28,13 +26,13 @@ int main(int argc, char* argv[])
 		Graph g = builder.create("./data/c.txt");
 		cout << g;*/
 
+		// Run BFS from the 3rd vertex using the parallel OpenMP strategy
 		auto start = chrono::system_clock::now();
-		//std::vector<int> dist = g.pbfs(3);
 		std::vector<int> distP = g.bfs<ExecutionStrategy::ParallelOmp>(3);
 		chrono::duration<double> durP = chrono::system_clock::now() - start;
 		cout << durP.count() << endl;
-		//copy(distP.begin(), distP.end(), ostream_iterator<int>(cout, " "));
 
+		// Run BFS from the 3rd vertex using the sequential strategy
 		start = chrono::system_clock::now();
 		std::vector<int> distS = g.bfs<ExecutionStrategy::Sequential>(3);
 		chrono::duration<double> durS = chrono::system_clock::now() - start;
