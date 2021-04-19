@@ -30,3 +30,6 @@ Since pennant unioning takes constant time, worst-case time to insert a pennant 
 
 Bag unioning uses an algorithm similar to ripple-carry addition of two binary counters. Given three pennants x, y, and z, where each either has size 2<sup>k</sup> or is empty, we can merge them to produce a pair of pennants (s, c), where s has size 2<sup>k</sup> or is empty, and c has size 2<sup>k+1</sup> or is empty. With this idea in mind, we can union two bags by merging corresponding pennants of their backbones and the "carry bit" from the previous step. To compute all entries in the backbone of the resulting bag takes O(log(n)) time.
 
+Splitting a bag operates like an arithmetic right shift: we divide each pennant into halves. One half is kept in the original bag and the other one is placed at the same position in the new bag. If there is a remainder (the least significant element), it is inserted into the original bag. 
+
+To split a pennant A, we first set the root of a new pennant B to be the root of A. Then we set the root of A to be the only child of B, set the only child of B to be the second child of A, and remove the second child of A. Each of the pennants A and B now contain half the elements. Like pennant unioning, splitting a pennant also operates in O(1) time. Consequently, the asymptotic runtime of bag splitting is O(log(n)).
