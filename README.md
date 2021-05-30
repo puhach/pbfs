@@ -33,3 +33,41 @@ Bag unioning uses an algorithm similar to ripple-carry addition of two binary co
 Splitting a bag operates like an arithmetic right shift: we divide each pennant into halves. One half is kept in the original bag and the other one is placed at the same position in the new bag. If there is a remainder (the least significant element), it is inserted into the original bag. 
 
 To split a pennant A, we first set the root of a new pennant B to be the root of A. Then we set the root of A to be the only child of B, set the only child of B to be the second child of A, and remove the second child of A. Each of the pennants A and B now contain half the elements. Like pennant unioning, splitting a pennant also operates in O(1) time. Consequently, the asymptotic runtime of bag splitting is O(log(n)).
+
+## Results
+
+The following tables compare execution time (in seconds) of a sequential and parallel (OpenMP) versions of the BFS algorithm for various types of graph run on a Core i7-4712HQ CPU @ 2.3 GHz.
+
+* Graph density = 0.01
+
+#Vertices | Sequential | OMP Parallel
+------------ | ------------ | -------------
+1000 | 0.0010 | 0.0015
+10000 | 0.0221 | 0.0338
+50000 | 2.8965 | 0.9770
+100000 | 1.7115 | 0.6657
+
+* Graph density = 0.3
+
+#Vertices | Sequential | OMP Parallel
+------------ | ------------ | -------------
+1000 | 0.0051 | 0.0030
+10000 | 0.3915 | 0.1538
+50000 | 8.3698 | 2.6996
+
+
+* Graph density = 0.5
+
+#Vertices | Sequential | OMP Parallel
+------------ | ------------ | -------------
+1000 | 0.0076 | 0.0171
+10000 | 0.6261 | 0.2970
+50000 | 13.7973 | 4.5804
+
+* Graph density = 0.9
+
+#Vertices | Sequential | OMP Parallel
+------------ | ------------ | -------------
+1000 | 0.0114 | 0.0219
+10000 | 1.1992 | 0.5215
+50000 | 24.8087 | 8.1881
