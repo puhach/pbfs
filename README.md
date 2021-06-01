@@ -76,4 +76,4 @@ The following tables compare execution time (in seconds) of a sequential and par
 
 * The project implements ideas from the paper "A Work-Efficient Parallel Breadth-First Search Algorithm (or How to Cope with the Nondeterminism of Reducers)" by Charles E. Leiserson and Tao B. Schardl.
 
-* The images are taken from the [High Performance Computing course](https://classroom.udacity.com/courses/ud281) offered at Udacity.
+* The BFS image was taken from the [High Performance Computing course](https://classroom.udacity.com/courses/ud281) offered at Udacity.
