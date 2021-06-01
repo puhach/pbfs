@@ -71,3 +71,9 @@ The following tables compare execution time (in seconds) of a sequential and par
 1000 | 0.0114 | 0.0219
 10000 | 1.1992 | 0.5215
 50000 | 24.8087 | 8.1881
+
+## Credits
+
+* The project implements ideas from the paper "A Work-Efficient Parallel Breadth-First Search Algorithm (or How to Cope with the Nondeterminism of Reducers)" by Charles E. Leiserson and Tao B. Schardl.
+
+* The images are taken from the [High Performance Computing course](https://classroom.udacity.com/courses/ud281) offered at Udacity.
